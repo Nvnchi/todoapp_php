@@ -1,0 +1,87 @@
+🚩 Score level 1
+
+Studenten... 
+
+📌 kunnen registreren + inloggen
+- Gebruik bcrypt en zorg dat je dit mechanisme kan uitleggen
+- Waarom is bcrypt veiliger dan md5 of sha?
+
+📌 kunnen lijsten toevoegen en verwijderen (vb: “Taken php”)
+- Werk hier zeker met getters en setters in je klasse (vb: beschrijving van een todo kan niet leeg zijn)
+
+📌 kunnen taken toevoegen aan een specifieke lijst
+- Titel
+- Deadline datum (optioneel in te vullen)
+- Vb: “Herexamen PHP1”
+
+📌 kunnen taken verwijderen uit een lijst
+
+📌 kunnen commentaren achterlaten op taken via AJAX
+
+📌 kunnen taken markeren als done of todo via AJAX
+
+📌 kunnen zien of een taak al voorbij is of hoeveel dagen er nog resteren (“3 dagen resterend”)
+
+📌 taken worden getoond volgens deadline (degene die het meest dringend is staat bovenaan de lijst)
+
+
+/************************************************************************************************************************************************/
+
+
+🚩 Score level 2
+
+Studenten...
+
+📌 kunnen taken sorteren op basis van titel of deadline
+- Maak hiervoor gebruik van een link en een $_GET parameter (vb ?sort=ascending|descending&type=title)
+
+📌 kunnen een bestand opladen en linken aan een todo-item (vb: PDF)
+
+📌 kunnen gekoppelde bestanden verwijderen
+
+📌 kunnen geen dubbele taken (met eenzelfde naam) opladen binnen eenzelfde lijst (dit geeft een foutboodschap via try…catch)
+
+
+/************************************************************************************************************************************************/
+
+
+🚩 Technische vereisten
+
+📌 Gebruik GIT vanaf dag 1. Uw GIT-historiek toont wanneer en hoe frequent u aan de opdracht heeft gewerkt
+- Een laptop crash heeft geen enkel negatief effect op je project, je werk kan dus nooit kwijt raken
+- Werk lokaal met feature branches en merge enkel met de master/main indien je feature 100% werkt, zo vermijd je dat je project tijdens je verdediging maar half of 
+niet werkt
+- Gebruik “Conventional commit messages” zoals ze hier worden uitgelegd: https://www.youtube.com/watch?v=OJqUWvmf4gg
+- Conventionalcommits.org 
+
+📌 Gebruik van een CSS-framework zoals Bootstrap of TailwindCSS is toegestaan, maar niet verplicht, de UI mag eenvoudig zijn, maar moet wel verzorgd zijn zoals we dat
+in de opleiding vereisen.
+
+📌 Werk volgens de principes van OOP (klassen User + Task + List zijn minimaal vereist)
+
+📌 Hou rekening met XSS en SQL injection. [SQL injection of XSS = -5/20 op uw eindscore]
+
+📌 Ontwikkel een databank in MySQL volgens de regels van de kunst
+
+📌 Gebruik van PHP-frameworks is voor deze opdracht niet toegestaan, bewijs dat u de basis van PHP beheerst
+
+📌 Gebruik je ChatGTP of andere online bronnen om code te genereren, zorg dan dat je al je code kan uitleggen. Elke lijn code die je schrijft moet je kunnen 
+verdedigen en uitleggen.
+
+📌 Zorg voor gepaste feedback (succes- en foutboodschappen)
+
+📌 Zorg voor afhandeling van errors via een try-catch structuur, hierop zal getest worden
+
+📌 Zorg voor een applicatie die voldoet aan de verwachtingen van onze opleiding.
+
+📌 Alle code in je applicatie is door jezelf geschreven. Als je ergens code vandaan haalt die je niet zelf helemaal hebt geschreven, dan plaats je een duidelijke 
+bronvermelding in je code (ook voor stackoverflow!)
+
+📌 Insturen
+- Stuur je finaal project in volgens de richtlijnen en deadline op Canvas
+- Zorg voor een publieke GIT-repository
+- Zorg dat je project online staat (je mag zelf kiezen of je dit doet via FTP of een cloud provider zoals Azure. Het laatste heeft de voorkeur)
+
+
+Veel succes!
+Tijdens de mondelinge verdediging van uw project overlopen we volgende 10 skills
