@@ -1,0 +1,112 @@
+body {
+    background-color: #FF9A8B;
+    background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
+}
+
+.custom-shape-divider-bottom-1692189963 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1692189963 svg {
+    position: relative;
+    display: block;
+    width: calc(185% + 1.3px);
+    height: 681px;
+    transform: rotateY(180deg);
+}
+
+.custom-shape-divider-bottom-1692189963 .shape-fill {
+    fill: #FFFFFF;
+}
+
+.title {
+    font-family: 'Caprasimo', cursive;
+    font-size: 40px;
+    color: white;
+}
+
+.subtitle {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 20px;
+    color: white;
+    font-weight: bolder;
+    margin-top: -20px;
+}
+
+a {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bolder;
+    background-color: white;
+    background-size: 200% 100%;
+    background-position: -100%;
+    display: inline-block;
+    padding: 5px 0;
+    position: relative;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.3s ease-in-out;
+}
+
+a:before{
+  content: '';
+  background: white;
+  display: block;
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  transition: all 0.3s ease-in-out;
+}
+
+a:hover {
+ background-position: 0;
+}
+
+a:hover::before{
+  width: 100%;
+}
+
+#register {
+  margin-left: 100px;
+  margin-top: 150px;
+}
+
+.registerForm {
+    margin-left: 100px;
+    margin-top: 30px;
+}
+
+.input {
+    font-family: 'Quicksand', sans-serif;
+    color: white;
+    margin: 1em 0 1em 0;
+    max-width: 190px;
+    position: relative;
+}
+
+.input input {
+    font-family: 'Quicksand', sans-serif;
+    color: white;
+    font-size: 100%;
+    padding: 0.8em;
+    outline: none;
+    border: 1px solid #FFFFFF;
+    background-color: transparent;
+    border-radius: 20px;
+    width: 200%;
+    margin-top: 5px;
+}
+
+.input label {
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+
