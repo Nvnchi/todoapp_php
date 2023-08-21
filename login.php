@@ -1,3 +1,42 @@
+<?php
+  namespace MyApp;
+  include(__DIR__ . "/PhpClasses/User.php");
+  $errormessage = '⚠️ The details were incorrect. Please try again.';
+  $error = false;
+
+  if (!empty($_POST)){
+    $username = $_POST['username'];
+    /*$email = $_POST['email'];*/
+    $password = $_POST['password'];
+    try{
+      $user = new User();
+      // Uses this function in the User class to get the user if exists, if not it returns null
+      $userData = $user->getUserByUsername($username);
+
+      if ($userData !== null) {
+        if (password_verify($password,$userData['password'])) {
+          $error = false;
+          // Username and password are correct
+          session_start();
+          $_SESSION['username'] = $userData['username'];
+          $_SESSION['user_id'] = $userData['user_id'];
+          // header("refresh:1; url=homepage.php");
+          $succes ="⭐ Welcome back " . $_SESSION['username'] . "!";
+        } else {
+          // password incorrect!
+          $errormessage = '⚠️ Password incorrect!';
+          $error = true;
+        }
+      } else {
+        $errormessage = '⚠️ The given username does not exist!';
+        // Username does not exist!
+        $error = true;
+      }
+    } catch (\Throwable $th){
+      echo "⚠️ An error occurred: " . $e->getMessage();
+    }
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,13 +58,16 @@
 
 <div id="register">
     <h1 class="title">Welcome back!</h1>
-    <h2 class="subtitle">Time to get some tasks done! No account yet? Sign up <a href="register.php">here</a> to make one!</h2>
+    <h2 class="subtitle">Time to get some tasks done! No account yet? Sign up <a class="link" href="register.php">here</a> to make one!</h2>
 </div>
 
 
 <div class="registerForm">
  
-  <form>
+<form action="login.php" method="post">
+    <?php if(isset($succes)): ?>
+      <div class="succes"><?php echo $succes; ?></div>
+    <?php endif; ?>
     <div class="input">
         <label for="username">Username or email</label>
         <input type="text" id="username" name="username">
@@ -35,7 +77,10 @@
         <label for="password">Password</label>
         <input type="password" id="password" name="password">
     </div>
-    <a href="homepage.php">Login</a>
+    <?php if (isset($error) && $error == true): ?>
+      <div class="alert"><?php echo $errormessage; ?></div>
+    <?php endif; ?>
+    <input type="submit" class="button" value="Login">
   </form>
 
 </div>

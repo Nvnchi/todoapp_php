@@ -1,6 +1,40 @@
+/** nav bar **/
+nav {
+    font-family: 'Quicksand', sans-serif;
+    background-color: #FF9A8B;
+    background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 15px;
+
+}
+
+.divHeader{
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+#logo {
+    text-decoration: none;
+    font-family: 'Caprasimo', cursive;
+    font-size: 48px;
+    color: white;
+}
+
+.body {
+    background-color: white;
+    background-image: none;
+    margin: 0;
+}
+
+
 body {
     background-color: #FF9A8B;
     background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
+    margin: 0;
 }
 
 .custom-shape-divider-bottom-1692189963 {
@@ -19,6 +53,7 @@ body {
     width: calc(185% + 1.3px);
     height: 681px;
     transform: rotateY(180deg);
+    z-index: -1;
 }
 
 .custom-shape-divider-bottom-1692189963 .shape-fill {
@@ -39,7 +74,11 @@ body {
     margin-top: -20px;
 }
 
-a {
+.link2 {
+    font-weight: bold;
+}
+
+.link, .link2 {
     font-family: 'Quicksand', sans-serif;
     font-weight: bolder;
     background-color: white;
@@ -53,10 +92,10 @@ a {
     transition: all 0.3s ease-in-out;
 }
 
-a:before{
+.link:before, .link2:before{
   content: '';
-  background: white;
   display: block;
+  background: white;
   position: absolute;
   bottom: 2px;
   left: 0;
@@ -65,11 +104,11 @@ a:before{
   transition: all 0.3s ease-in-out;
 }
 
-a:hover {
+.link:hover, .link2:hover {
  background-position: 0;
 }
 
-a:hover::before{
+.link:hover::before, .link2:hover::before {
   width: 100%;
 }
 
@@ -80,10 +119,12 @@ a:hover::before{
 
 .registerForm {
     margin-left: 100px;
-    margin-top: 30px;
+    margin-top: 10px;
+    position: absolute;
+    z-index: 1;
 }
 
-.input {
+.input, .input2 {
     font-family: 'Quicksand', sans-serif;
     color: white;
     margin: 1em 0 1em 0;
@@ -91,7 +132,7 @@ a:hover::before{
     position: relative;
 }
 
-.input input {
+.input input, .input2 input {
     font-family: 'Quicksand', sans-serif;
     color: white;
     font-size: 100%;
@@ -100,13 +141,127 @@ a:hover::before{
     border: 1px solid #FFFFFF;
     background-color: transparent;
     border-radius: 20px;
-    width: 200%;
     margin-top: 5px;
 }
 
-.input label {
+.input input {
+    width: 200%;
+}
+
+.input2 input {
+    width: 250%;
+}
+
+.input label, .input2 label {
     margin-left: 5px;
     font-weight: bold;
+}
+
+.button {
+    background-color: transparent;
+    font-family: 'Quicksand', sans-serif;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 10px 15px;
+    border: 1px solid #FFFFFF;
+    border-radius: 20px;
+    box-shadow: 0 0 5px #eee;
+    margin-top: 20px;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+}
+
+.button:hover {
+    transform: scale(1.1);
+    text-decoration: underline;
+}
+
+.alert {
+    font-family: 'Quicksand', sans-serif;
+    color: white;
+    font-weight: bold;
+}
+
+.succes {
+    font-family: 'Quicksand', sans-serif;
+    color: white;
+    font-weight: bold;
+}
+ 
+
+/** homepage **/
+
+.title2 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+    font-size: 25px;
+    color: #FF9A8B;
+    margin-left: 40px;
+    margin-top: 50px;
+}
+
+.tasks, .Dtasks {
+    display: flex;
+    flex-direction: row;
+    border: #FF9A8B 2px solid;
+    margin-left: 40px;
+    width: 250px;
+
+}
+
+.task, .Dtask {
+    display: flex;
+    flex-direction: column;
+}
+
+.taskName, .taskDate, .DtaskName, .DtaskDate {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bolder;
+    font-size: 18px;
+    color: #FF9A8B;
+    margin-left: 10px;
+}
+
+.taskNameDate, .DtaskNameDate {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+}
+
+.taskDescription, .DtaskDescription {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: #FF9A8B;
+    margin-left: 10px;
+    margin-top: -20px;
+}
+
+.icon {
+    color: #FF9A8B;
+    width: 50px;
+    height: 50px;
+    margin-top: 60px;
+    margin-left: 50px;
+}
+
+.taskAdd {    
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#createTask {
+    max-width: 500px;
+    margin: 130px auto;
+    background-color: #FF9A8B;
+    background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
+    padding: 50px;
+    border-radius: 20px;
+    
 }
 
 
