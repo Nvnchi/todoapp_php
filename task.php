@@ -15,6 +15,7 @@ include_once 'header.php';
     <title>Academate</title>
 </head>
 <body class="body">
+    <div id="background">
     
     <div class="taskAdd">
     <h1 class="title2">Let's get some tasks done!</h1>
@@ -41,6 +42,22 @@ include_once 'header.php';
             </div>
             <div class="DtaskDescription"><p>Description task</p></div>
         </div>
+    </div>
+    </div>
+
+    <div id="background"></div>
+
+    <div id="taskDetails">
+    <div class="headerTask">
+    <div class="headerItem"><h1 class="title3">Task name</h1></div>
+    <div class="headerItem"><a href="homepage.php"><img class="icon2" src="multiply-line.svg" alt="Close"></a></div>
+    </div>
+    <h2 class="subtitle2">Due date</h2>
+    <p class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <div id="buttons">
+    <div class="buttonAction"><button class="button">Edit task</button></div>
+    <div class="buttonAction"><button class="button">Delete task</button></div>
+    </div>
     </div>
 
     
