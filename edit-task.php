@@ -12,13 +12,13 @@ include_once 'header.php';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <title>Academate - Create task</title>
+    <title>Academate - Edit task</title>
 </head>
 <body class="body">
 
 <div>
     <form id="createTask" action="post">
-        <h1 class="title">Create a task</h1>
+        <h1 class="title">Edit "task"</h1>
 
     <div class="input2">
         <label for="taskName">Task name</label>
@@ -34,7 +34,7 @@ include_once 'header.php';
         <label for="due">Due</label>
         <input type="date" id="due" name="due">
     </div>
-    <input type="submit" class="button" value="Create">
+    <input type="submit" class="button" value="Edit">
     </form>
 </div>
 

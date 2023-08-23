@@ -298,7 +298,7 @@ body {
     font-weight: bold;
     font-size: 40px;
     color: white; 
-    margin-left: 15px;
+    margin-left: 20px;
 }
 
 .subtitle2 {
@@ -318,7 +318,7 @@ body {
     margin: -10px 20px 0px 20px;
 }
 
-#buttons {
+.buttons {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -338,6 +338,43 @@ body {
     justify-content: space-between;
     align-items: center;
     align-items: stretch;
+}
+
+.profile {
+    background-color: #FF9A8B;
+    background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
+    position: absolute;
+    right: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+    width: 500px;
+    height: fit-content;
+    border-radius: 20px;
+    padding: 25px;
+}
+
+#logout {
+    margin-top: 150px;
+    margin-left: 20px;
+}
+
+#nameEmail {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#email {
+    margin-top: 50px;
+}
+
+#edit {
+    width: 15px;
+    height: 15px;
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(128deg) brightness(109%) contrast(101%);
 }
 
 
