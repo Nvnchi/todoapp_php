@@ -17,19 +17,12 @@ include_once 'header.php';
     <div class="profile">
         <div id="nameEmail">
         <div id="name"><h1 class="title3">Name</h1></div>
-        <a href="#"><img id="edit" src="edit.svg" alt="Edit icon"></a>
         <div id="email"><h2 class="subtitle2">Email</h2></div>
-        <a href="#"><img id="edit" src="edit.svg" alt="Edit icon"></a>
         </div>
-        <div id="nameEmail">
         <h2 class="subtitle2">@Username</h2>
-        <a href="#"><img id="edit" src="edit.svg" alt="Edit icon"></a>
+        <div class="logout">
+            <button id="logout">Log out</button>
         </div>
-        <div id="nameEmail">
-        <h3 class="text">University</h3>
-        <a href="#"><img id="edit" src="edit.svg" alt="Edit icon"></a>
-        </div>
-        <a id="logout" class="button" href="logout.php">Log out</a>
         
     </div>
 </body>
