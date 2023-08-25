@@ -1,5 +1,15 @@
 <?php
-include_once 'header.php';
+  namespace MyApp;
+  include_once 'header.php';
+  include(__DIR__ . "/PhpClasses/User.php");
+
+  $user = new User();
+  // Uses this function in the User class to get the user if exists, if not it returns null
+  $userData = $user->getUserById($_SESSION['user_id']);
+
+  if ($userData == null) {
+    header("Location: login.php");
+  }
 ?>
 
 <!DOCTYPE html>
@@ -16,14 +26,13 @@ include_once 'header.php';
 <body class="body">
     <div class="profile">
         <div id="nameEmail">
-        <div id="name"><h1 class="title3">Name</h1></div>
-        <div id="email"><h2 class="subtitle2">Email</h2></div>
+        <div id="name"><h1 class="title3"><?php echo $userData['firstname'] . " " . $userData['lastname']; ?></h1></div>
+        <div class="email"><h2 class="subtitle2"><?php echo $userData['email']; ?></h2></div>
         </div>
-        <h2 class="subtitle2">@Username</h2>
+        <h2 class="subtitle2">@<?php echo $userData['username']; ?></h2>
         <div class="logout">
-            <button id="logout">Log out</button>
+            <button id="logout" onclick="window.location.href='logout.php'">Log out</button>
         </div>
-        
     </div>
 </body>
 </html>

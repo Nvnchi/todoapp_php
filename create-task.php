@@ -1,6 +1,32 @@
 <?php
-include_once 'header.php';
+  namespace MyApp;
+  include_once 'header.php';
+  include(__DIR__ . "/PhpClasses/Task.php");
 
+  $errormessage = '⚠️ Something went wrong!';
+  $haserror = false;
+  // Check if the form is empty
+  if(!empty($_POST)){
+    // try catch block to put up error messages
+    try{
+      //Create instance of User Class and set values.
+      $task = new Task();
+      //Create unique user id, using integrated function uniqid()
+      $task->setTaskid(uniqid());
+      $task->setUserid($_SESSION['user_id']);
+      $task->setName($_POST['taskName']);
+      $task->setDescription($_POST['taskDescription']);
+      $task->setDuedate($_POST['due']);
+
+      $task->createTask();
+      $succes ="⭐ Task created succesfully!";
+      header("refresh:1; url=homepage.php");
+    } catch(\Throwable $th){
+        $error = $th->getMessage();
+        $errormessage = $error;
+        $haserror = true;
+    }
+  }
 ?>
 
 <!DOCTYPE html>
@@ -17,24 +43,24 @@ include_once 'header.php';
 <body class="body">
 
 <div>
-    <form id="createTask" action="post">
-        <h1 class="title">Create a task</h1>
+    <form id="createTask" action="create-task.php" method="post">
+      <h1 class="title">Create a task</h1>
 
-    <div class="input2">
+      <div class="input2">
         <label for="taskName">Task name</label>
         <input type="text" id="taskName" name="taskName">
-    </div>
+      </div>
 
-    <div class="input2">
+      <div class="input2">
         <label for="taskDescription">Task description</label>
         <input type="text" id="taskDescription" name="taskDescription">
-    </div>
+      </div>
 
-    <div class="input2">
-        <label for="due">Due</label>
+      <div class="input2">
+        <label for="due">Due (optional)</label>
         <input type="date" id="due" name="due">
-    </div>
-    <input type="submit" class="button" value="Create">
+      </div>
+      <input type="submit" class="button" value="Create">
     </form>
 </div>
 

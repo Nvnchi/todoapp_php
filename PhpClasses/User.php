@@ -2,7 +2,6 @@
   namespace MyApp;
   use Exception;
   include_once(__DIR__ . "/Db.php");
-  use PDO;
 
 class User{
         private $user_id;
@@ -147,11 +146,46 @@ class User{
           $db = new Db();
           $db->__construct();
 
-          $statement = $db->prepare("SELECT * FROM users WHERE username = :username");
-          $statement->bindParam(':username', $username, PDO::PARAM_STR);
-          $statement->execute();
+          $statement = $db->prepare("SELECT * FROM users WHERE username = ?");
+          $statement->execute([$username]);
 
-          $userData = $statement->fetch(PDO::FETCH_ASSOC);
+          $userData = $statement->fetch();
+
+          $db->close();
+          if ($userData) {
+            return $userData;
+          } else {
+            return null;
+          }
+        }
+
+        public function getUserByEmail($email){
+          // create database class and start the connection.
+          $db = new Db();
+          $db->__construct();
+
+          $statement = $db->prepare("SELECT * FROM users WHERE email = ?");
+          $statement->execute([$email]);
+
+          $userData = $statement->fetch();
+
+          $db->close();
+          if ($userData) {
+            return $userData;
+          } else {
+            return null;
+          }
+        }
+
+        public function getUserById($user_id){
+          // create database class and start the connection.
+          $db = new Db();
+          $db->__construct();
+
+          $statement = $db->prepare("SELECT * FROM users WHERE user_id = ?");
+          $statement->execute([$user_id]);
+
+          $userData = $statement->fetch();
 
           $db->close();
           if ($userData) {

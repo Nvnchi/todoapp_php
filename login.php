@@ -5,23 +5,28 @@
   $error = false;
 
   if (!empty($_POST)){
-    $username = $_POST['username'];
-    /*$email = $_POST['email'];*/
-    $password = $_POST['password'];
+    $inputlogin = htmlspecialchars($_POST['inputlogin'],ENT_QUOTES,"UTF-8");
+    $password = htmlspecialchars($_POST['password'],ENT_QUOTES,"UTF-8");
     try{
       $user = new User();
-      // Uses this function in the User class to get the user if exists, if not it returns null
-      $userData = $user->getUserByUsername($username);
 
-      if ($userData !== null) {
+      // Uses this to check if user gave an email, if so search account by email.
+      if (filter_var($inputlogin, FILTER_VALIDATE_EMAIL)) {
+        $userData = $user->getUserByEmail($inputlogin);
+      } else {
+        $userData = $user->getUserByUsername($inputlogin);
+      }
+
+
+      if (isset($userData)) {
         if (password_verify($password,$userData['password'])) {
           $error = false;
           // Username and password are correct
           session_start();
           $_SESSION['username'] = $userData['username'];
           $_SESSION['user_id'] = $userData['user_id'];
-          // header("refresh:1; url=homepage.php");
           $succes ="⭐ Welcome back " . $_SESSION['username'] . "!";
+          header("refresh:1; url=homepage.php");
         } else {
           // password incorrect!
           $errormessage = '⚠️ Password incorrect!';
@@ -69,8 +74,8 @@
       <div class="succes"><?php echo $succes; ?></div>
     <?php endif; ?>
     <div class="input">
-        <label for="username">Username or email</label>
-        <input type="text" id="username" name="username">
+        <label for="inputlogin">Username or email</label>
+        <input type="text" id="username" name="inputlogin">
     </div>
 
     <div class="input">

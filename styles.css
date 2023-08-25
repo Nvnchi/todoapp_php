@@ -132,7 +132,7 @@ body {
     position: relative;
 }
 
-.input input, .input2 input {
+.input input, .input2 input, #inputfieldComment {
     font-family: 'Quicksand', sans-serif;
     color: white;
     font-size: 100%;
@@ -142,6 +142,13 @@ body {
     background-color: transparent;
     border-radius: 20px;
     margin-top: 5px;
+}
+
+#inputfieldComment {
+    width: 470px;
+    margin-top: 20px;
+    margin-left: 15px;
+    margin-right: 15px;
 }
 
 .input input {
@@ -228,7 +235,7 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    gap: 40px;
+    gap: 70px;
 }
 
 .taskDescription, .DtaskDescription {
@@ -298,7 +305,7 @@ body {
     font-weight: bold;
     font-size: 40px;
     color: white; 
-    margin-left: 20px;
+    margin-left: 15px;
 }
 
 .subtitle2 {
@@ -306,7 +313,7 @@ body {
     font-weight: lighter;
     font-size: 20px;
     color: white; 
-    margin-left: 20px;
+    margin-left: 15px;
     margin-top: -25px;
 }
 
@@ -315,14 +322,36 @@ body {
     font-weight: normal;
     font-size: 16px;
     color: white; 
-    margin: -10px 20px 0px 20px;
+    margin: -10px 20px 0px 15px;
 }
 
 .buttons {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin: 0px 20px 20px 20px;
+    align-items: center;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+#butt {
+    margin-left: 170px;
+}
+
+#line {
+    width: 100%;
+    height: 1px;
+    background-color: white;
+    margin-top: 20px;
+}
+
+.title4 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    color: white; 
+    margin-left: 15px;
+    margin-top: 20px;
 }
 
 .icon2 {
@@ -341,63 +370,78 @@ body {
 }
 
 .profile {
-    background-color: #FF9A8B;
-    background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
-    position: absolute;
-    right: 0;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    margin: auto;
-    width: 500px;
-    height: fit-content;
-    border-radius: 20px;
-    padding: 25px;
-}
-
-#nameEmail {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-#email {
-    margin-top: 50px;
-}
-
-#edit {
-    width: 15px;
-    height: 15px;
-    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(128deg) brightness(109%) contrast(101%);
+  background-color: #FF9A8B;
+  background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
+  position: absolute;
+  right: 0;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  margin: auto;
+  width: 500px;
+  height: fit-content;
+  border-radius: 20px;
+  padding: 25px;
 }
 
 #logout {
-    background-color: transparent;
-    font-family: 'Quicksand', sans-serif;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    padding: 10px 15px;
-    border: 1px solid #FFFFFF;
-    border-radius: 20px;
-    box-shadow: 0 0 5px #eee;
-    margin-top: 20px;
-    font-weight: bold;
-    transition: all 0.3s ease-in-out;
-    width: 250px;
+  background-color: transparent;
+  font-family: 'Quicksand', sans-serif;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 10px 15px;
+  border: 1px solid #FFFFFF;
+  border-radius: 20px;
+  box-shadow: 0 0 5px #eee;
+  margin-top: 20px;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+  width: 250px;
 }
 
 #logout:hover {
-    transform: scale(1.1);
-    text-decoration: underline;
+  transform: scale(1.1);
+  text-decoration: underline;
 }
 
 .logout {
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
-    margin-top: 20px;
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  margin-top: 20px;
 }
 
+#nameEmail {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
 
+.email {
+  margin-top: 50px;
+}
+
+#edit {
+  width: 15px;
+  height: 15px;
+  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(128deg) brightness(109%) contrast(101%);
+}
+
+.details {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: lighter;
+    font-size: 20px;
+    margin-left: 40px;
+    color: #FF9A8B;
+}
+
+.dueTill {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: #FF9A8B;
+    margin-left: 10px;
+    margin-top: 0px;
+}

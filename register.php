@@ -12,10 +12,11 @@
       $user = new User();
       //Create unique user id, using integrated function uniqid()
       $user->setUserid(uniqid());
-      $user->setUsername($_POST['username']);
-      $user->setEmail($_POST['email']);
-      $user->setLastname($_POST['lastname']);
-      $user->setFirstname($_POST['firstname']);
+      
+      $user->setUsername(htmlspecialchars($_POST['username'],ENT_QUOTES,"UTF-8"));
+      $user->setEmail(htmlspecialchars($_POST['email'],ENT_QUOTES,"UTF-8"));
+      $user->setLastname(htmlspecialchars($_POST['lastname'],ENT_QUOTES,"UTF-8"));
+      $user->setFirstname(htmlspecialchars($_POST['firstname'],ENT_QUOTES,"UTF-8"));
 
       // this cost is the repetition of the algorithm which means the algorithm will run 14 times to make a strong hash
       $options = [
