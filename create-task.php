@@ -60,6 +60,17 @@
         <label for="due">Due (optional)</label>
         <input type="date" id="due" name="due">
       </div>
+
+      <div class="input2">
+        <label for="label">Label</label>
+        <select id="label" name="label">
+          <option value="Label 1">Label 1</option>
+          <option value="Label 2">Label 2</option>
+          <option value="Label 3">Label 3</option>
+          <option value="Label 4">Label 4</option>
+        </select>
+        </div>
+
       <input type="submit" class="button" value="Create">
     </form>
 </div>

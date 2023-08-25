@@ -70,11 +70,26 @@ function deleteTask(task_id) {
         
         <a class="icon" href="create-task.php">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 35" fill="none"><path stroke="#FF9A8B" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h7m7 0h-7m0 0V5m0 7v7"/></svg></a>
+          <div id="filters">
+            <div id="filterTitle"><h2>Filter on</h2></div>
+          <div id="filter">
+          <label class="b-contain" for="name">Name
+          <input type="checkbox" id="name" name="name" />
+          <div class="b-input"></div>
+          </label>
+          <label class="b-contain" for="date">Date
+          <input type="checkbox" id="date" name="date" />
+          <div class="b-input"></div>
+          </label>
+
+          </div>
+          </div>
       </div>
 
+      <div class="tasks">
       <?php if (isset($tasks) && count($tasks) > 0): ?>
         <?php foreach ($tasks as $task) { ?>
-          <div class="tasks" onclick="window.location.href='homepage.php?opentaskid=<?php echo $task['task_id']; ?>'">
+          <div onclick="window.location.href='homepage.php?opentaskid=<?php echo $task['task_id']; ?>'">
             <div class="task">
               <div class="taskNameDate">
                 <div class="taskName"><p><?php echo $task['name']; ?></p></div>
@@ -102,15 +117,16 @@ function deleteTask(task_id) {
             </div>
           </div>
         <?php } ?>
+        </div>
       <?php else: ?>
         <p class="details">No tasks yet, let's create some tasks!</p>
       <?php endif; ?>
-      
+      </div>
       <h1 class="title2">Glad these are over!</h1>
-      
+      <div class="Dtasks">
       <?php if (isset($donetasks) && count($donetasks) > 0): ?>
         <?php foreach ($donetasks as $task) { ?>
-          <div class="Dtasks" onclick="window.location.href='homepage.php?opentaskid=<?php echo $task['task_id']; ?>'">
+          <div onclick="window.location.href='homepage.php?opentaskid=<?php echo $task['task_id']; ?>'">
             <div class="Dtask">
               <div class="DtaskNameDate">
                   <div class="DtaskName"><p><?php echo $task['name']; ?></p></div>
@@ -120,6 +136,7 @@ function deleteTask(task_id) {
               </div>
           </div>
         <?php } ?>
+        </div>
       <?php else: ?>
         <p class="details">No done tasks yet, start working!</p>
       <?php endif; ?>
@@ -127,10 +144,17 @@ function deleteTask(task_id) {
       <?php if ($getTask !== null): ?>
         <div id="taskDetails">
           <div class="headerTask">
-            <div class="headerItem"><h1 class="title3"><?php echo $getTask['name']; ?></h1></div>
+            <div class="titleDue">
+            <div class="dueTitle"><div class="headerItem"><h1 class="title3"><?php echo $getTask['name']; ?></h1></div></div>
+            <div class="due"><h2 class="subtitle2"><?php echo $getTask['duedate']; ?></h2></div>
+            </div>
             <div class="headerItem"><a href="homepage.php"><img class="icon2" src="multiply-line.svg" alt="Close"></a></div>
             </div>
-            <h2 class="subtitle2"><?php echo $getTask['duedate']; ?></h2>
+            <div id="labels">
+              <div id="label">label 1</div>
+              <div id="label">label 2</div>
+              <div id="label">label 3</div>
+            </div>
             <p class="text"><?php echo $getTask['description']; ?></p>
             <div class="buttons">
             <div class="buttonAction"><button class="button" onclick="deleteTask('<?php echo $getTask['task_id']; ?>')">Delete task</button></div>
