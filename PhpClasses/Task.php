@@ -2,6 +2,8 @@
   namespace MyApp;
   use Exception;
   include_once(__DIR__ . "/Db.php");
+  use PDO;
+
 class Task{
         private $task_id;
         private $user_id;
@@ -73,7 +75,7 @@ class Task{
         public function setName($name)
         {
             if(empty($name)){
-                throw new Exception("Name can't be empty");
+                throw new Exception("⚠️ Give your task a name!");
             }
             $this->name = $name;
 
@@ -96,7 +98,7 @@ class Task{
         public function setDescription($description)
         {
             if(empty($description)){
-                throw new Exception("Description can't be empty");
+                throw new Exception("⚠️ Give your task a description!");
             }
             $this->description = $description;
 
@@ -260,9 +262,6 @@ class Task{
           }
         }
 
-
-
-
         public function deleteTask($task_id){
           // create database class and start the connection.
           $db = new Db();
@@ -298,6 +297,31 @@ class Task{
           }
         }
 
+        public function updateTaskFile($uploadedfile, $task_id){
+          // create database class and start the connection.
+          $db = new Db();
+          $db->__construct();
+
+          $statement = $db->prepare("SELECT * FROM tasks where  task_id = ?");
+          $statement->execute([$task_id]);
+
+          $taskData = $statement->fetch();
+          if (!empty($taskData["uploadedfile"])){
+            unlink("./filesystem/" . $taskData["uploadedfile"]);
+          }
+          
+          $statement = $db->prepare("UPDATE tasks SET uploadedfile = ? where task_id = ?");
+          $statement->execute([$uploadedfile, $task_id]);
+          
+          $taskData = $statement->fetch();
+          
+          $db->close();
+          if ($taskData) {
+            return $taskData;
+          } else {
+            return null;
+          }
+        }
 
         public function createTask(){
             // create database class and start the connection.

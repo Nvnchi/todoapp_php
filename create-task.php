@@ -36,7 +36,7 @@
       }
       $result = $task->getTaskByNameCheckifExistsInList($tasklistname, $_POST['taskName']);
       if (!empty($result)) {
-        throw new Exception("Taskname already taken in this list!");
+        throw new Exception("⚠️ This task has already been made. Use another name.");
       }
       //Create unique user id, using integrated function uniqid()
       $task->setTaskid(uniqid());
@@ -77,23 +77,23 @@
       <h1 class="title">Create a task</h1>
 
       <div class="input2">
-        <label for="taskName">Task name</label>
+        <label for="taskName">Task name*</label>
         <input type="text" id="taskName" name="taskName">
       </div>
 
       <div class="input2">
-        <label for="taskDescription">Task description</label>
+        <label for="taskDescription">Task description*</label>
         <input type="text" id="taskDescription" name="taskDescription">
       </div>
 
       <div class="input2">
-        <label for="due">Due (optional)</label>
+        <label for="due">Due</label>
         <input type="date" id="due" name="due">
       </div>
 
       <?php if (isset($tasklists) && count($tasklists) > 0): ?>
         <div class="input2">
-        <label for="label">List:</label>
+        <label for="label">Label:</label>
         <select id="label" name="labeldropdown">
             <option value="none">none</option>
           <?php foreach ($tasklists as $tasklist) { ?>
@@ -103,12 +103,13 @@
         </div>
         <?php else: ?>
         <div class="input2">
-          <label for="label">No tasklists</label>
+          <label for="label">No labels</label>
         </div>
       <?php endif; ?>
       <div class="input2">
-        <label for="label">Use another list: (will override selected list)</label>
+        <label for="label">Make another label</label>
         <input type="label" id="test" name="label">
+        <a class="link" id="link" href="labels.php">Maintain labels</a>
       </div>
       <?php if (isset($haserror) && $haserror == true): ?>
         <div class="alert"><?php echo $errormessage; ?></div>

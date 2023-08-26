@@ -66,6 +66,15 @@ body {
     color: white;
 }
 
+.title5 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+    font-size: 40px;
+    color: white;
+    margin-left: 15px;
+    margin-bottom: 0px;
+}
+
 .subtitle {
     font-family: 'Quicksand', sans-serif;
     font-size: 20px;
@@ -76,6 +85,11 @@ body {
 
 .link2 {
     font-weight: bold;
+}
+
+#link {
+    margin-left: 5px;
+    margin-top: 15px;
 }
 
 .link, .link2 {
@@ -164,7 +178,7 @@ body {
     font-weight: bold;
 }
 
-.button {
+.button, .button2 {
     background-color: transparent;
     font-family: 'Quicksand', sans-serif;
     color: white;
@@ -177,6 +191,12 @@ body {
     margin-top: 20px;
     font-weight: bold;
     transition: all 0.3s ease-in-out;
+}
+
+.button2 {
+    margin-left: 20px;
+    width: 250px;
+    margin-right: 95px;
 }
 
 .button:hover {
@@ -296,6 +316,10 @@ body {
     margin-left: 15px;
 }
 
+#label:hover {
+    color: black;
+}
+
 #labels {
     display: flex;
     flex-direction: row;
@@ -310,7 +334,7 @@ body {
 
 #createTask {
     max-width: 500px;
-    margin: 130px auto;
+    margin: 70px auto;
     background-color: #FF9A8B;
     background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
     padding: 50px;
@@ -353,6 +377,10 @@ body {
     font-size: 40px;
     color: white; 
     margin-left: 15px;
+    white-space: nowrap;
+    width: 314px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .subtitle2 {
@@ -534,7 +562,7 @@ body {
     align-items: stretch;
 }
 
-.profile {
+.profile, .labels {
   background-color: #FF9A8B;
   background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
   position: absolute;
@@ -547,6 +575,29 @@ body {
   height: fit-content;
   border-radius: 20px;
   padding: 25px;
+}
+
+.labels {
+  width: 60%;
+  margin-top: 200px;
+}
+
+.labels2{
+    border-bottom: white 1px solid;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-bottom: 10px;
+}
+
+#nameLabel {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    color: white; 
 }
 
 #logout {
@@ -585,11 +636,7 @@ body {
 }
 
 .email {
-  margin-top: 20px;
-}
-
-#username {
-    margin-top: -25px;
+  margin-top: 40px;
 }
 
 #edit {
@@ -614,6 +661,13 @@ body {
     margin-left: 10px;
     margin-top: 0px;
     font-weight: bold;
+}
+
+#maintain {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 25px;
 }
 
 @media screen and (max-width: 750px) {
@@ -655,5 +709,16 @@ body {
     .task, .Dtask {
         margin-left: 20px;
     }
+
+    #labels2 {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    #icon2 {
+        margin-left: 5px;
+    }
+
+
 
 }

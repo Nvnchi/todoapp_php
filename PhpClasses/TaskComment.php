@@ -70,7 +70,7 @@ class TaskComment{
         public function setComment($comment)
         {
                 if(empty($comment)){
-                  throw new Exception("Comment can't be empty");
+                  throw new Exception("⚠️ Your message can't be empty!");
                 }
                 $this->comment = $comment;
 

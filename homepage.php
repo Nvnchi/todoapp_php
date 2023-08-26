@@ -22,6 +22,17 @@
     $getTask = $task->getTaskByid($_SESSION['user_id'], $_GET['opentaskid']);
     $taskcomment = new TaskComment();
     $taskcomments = $taskcomment->getAllCommentsByTaskid($_GET['opentaskid']);
+
+    if(isset($_POST["submit"]) && !empty(basename($_FILES["fileToUpload"]["name"]))) {
+      $target = "./filesystem/";
+      $uniqid = uniqid();
+      $target_file = $target . $uniqid . "-" . basename($_FILES["fileToUpload"]["name"]);
+      $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+      move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
+      $task->updateTaskFile($uniqid . "-" . basename($_FILES["fileToUpload"]["name"]),$getTask["task_id"]);
+
+      $getTask = $task->getTaskByid($_SESSION['user_id'], $_GET['opentaskid']);
+    }
   }
 ?>
 
@@ -77,7 +88,16 @@ function orderTasksBy(filter) {
     window.location.href = baseUrl + "?filterbyName=false" + "&filterbyDate=true";
   }
 }
-  
+
+function deleteFile(filename, task_id) {
+  let xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+    }
+  };
+  xmlhttp.open("GET", "deleteFile.php?filename=" + filename + "&taskid=" + task_id, true);
+  xmlhttp.send();
+}
 
 </script>
 <body class="body  . <?php $getTask !== null ? 'background' : '' ?>">
@@ -114,11 +134,11 @@ function orderTasksBy(filter) {
               </div>
               <div class="taskDescription"><p><?php echo $task['description']; ?></p></div>
               <?php if ($task['duedate'] == date("Y-m-d")): ?>
-                <p class="dueTill">this is due today..</p>
+                <p class="dueTill">⚠️ This is due today!</p>
               <?php elseif ($task['duedate'] <= date("Y-m-d") && $task['duedate'] != ""): ?>
-                <p class="dueTill">this is overdue..</p>
+                <p class="dueTill">⚠️ This is overdue!</p>
               <?php elseif ($task['duedate'] != ""): ?>
-                <p class="dueTill">You have <?php 
+                <p class="dueTill">⭐ You have <?php 
                   // take the current date
                   $startDate  = new DateTime();
                   // and the task due date which we make a new DateTime class.
@@ -129,7 +149,7 @@ function orderTasksBy(filter) {
 
                   // plus 1 because it doesn't count the current day.
                   echo $daysDifference + 1;
-                ?> day(s) left</p>
+                ?> day(s) left.</p>
               <?php endif; ?>
             </div>
           </div>
@@ -171,8 +191,16 @@ function orderTasksBy(filter) {
               <div id="label"><?php echo $getTask['tasklist_name']; ?></div>
             </div>
             <p class="text"><?php echo $getTask['description']; ?></p>
+            <?php if(!empty($getTask['uploadedfile'])): ?>
+              <p target="_blank" onclick="window.open('filesystem/<?php echo $getTask['uploadedfile']; ?>')" class="text">Uploaded file: <?php echo $getTask['uploadedfile']; ?></p>
+              <button class="button" onclick="deleteFile('<?php echo $getTask['uploadedfile']; ?>', '<?php echo $getTask['task_id']; ?>')">Delete file</button>
+            <?php endif; ?>
+            <form action="homepage.php?opentaskid=<?php echo $getTask['task_id']; ?>&filterbyName=<?php echo $filterbyname; ?>&filterbyDate=<?php echo $filterbydate; ?>" method="post" enctype="multipart/form-data">
+              <div class="buttonAction"><input type="file" name="fileToUpload" id="fileToUpload" class="button2" onclick="uploadFile()"></input>
+              <button class="button" name="submit">Upload file</button></div>
+            </form>
             <div class="buttons">
-            <div class="buttonAction"><button class="button" onclick="deleteTask('<?php echo $getTask['task_id']; ?>')">Delete task</button></div>
+            <div class="buttonAction"><button class="button" onclick="deleteTask('<?php echo $getTask['task_id']; ?>')">Delete task</button></div>           
             <?php if ($getTask['isdone'] == 0): ?>
               <div class="buttonAction"><button class="button" onclick="markTaskDoneOrTodo('<?php echo $getTask['task_id']; ?>')">Task done</button></div>
             <?php else: ?>

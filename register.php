@@ -66,27 +66,27 @@
   <?php endif; ?>
   <form action="register.php" method="post">
     <div class="input">
-        <label for="firstname">First name</label>
+        <label for="firstname">First name*</label>
         <input type="text" id="firstname" name="firstname">
     </div>
 
     <div class="input">
-        <label for="lastname">Last name</label>
+        <label for="lastname">Last name*</label>
         <input type="text" id="lastname" name="lastname">
     </div>
 
     <div class="input">
-        <label for="username">Username</label>
+        <label for="username">Username*</label>
         <input type="text" id="username" name="username">
     </div>
 
     <div class="input">
-        <label for="email">Email</label>
+        <label for="email">Email*</label>
         <input type="email" id="email" name="email">
     </div>
 
     <div class="input">
-        <label for="password">Password</label>
+        <label for="password">Password*</label>
         <input type="password" id="password" name="password">
     </div>
     <?php if (isset($haserror) && $haserror == true): ?>
