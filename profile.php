@@ -29,7 +29,7 @@
         <div id="name"><h1 class="title3"><?php echo $userData['firstname'] . " " . $userData['lastname']; ?></h1></div>
         <div class="email"><h2 class="subtitle2"><?php echo $userData['email']; ?></h2></div>
         </div>
-        <h2 class="subtitle2">@<?php echo $userData['username']; ?></h2>
+        <h2 id="username" class="subtitle2">@<?php echo $userData['username']; ?></h2>
         <div class="logout">
             <button id="logout" onclick="window.location.href='logout.php'">Log out</button>
         </div>

@@ -585,7 +585,11 @@ body {
 }
 
 .email {
-  margin-top: 50px;
+  margin-top: 20px;
+}
+
+#username {
+    margin-top: -25px;
 }
 
 #edit {
@@ -610,4 +614,46 @@ body {
     margin-left: 10px;
     margin-top: 0px;
     font-weight: bold;
+}
+
+@media screen and (max-width: 750px) {
+    .subtitle {
+        margin-right: 150px;
+    }
+
+    #register {
+        margin-top: 100px;
+    }
+
+    .custom-shape-divider-bottom-1692189963 {
+        display: none;
+    }
+
+    #filters {
+        font-size: 12px;
+    }
+
+    .title2 {
+        font-size: 18px;
+        margin-left: 20px;
+
+    }
+
+    .icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    #filterTitle {
+        font-size: 12px;
+    }
+
+    nav {
+        margin-left: -20px;
+    }
+
+    .task, .Dtask {
+        margin-left: 20px;
+    }
+
 }

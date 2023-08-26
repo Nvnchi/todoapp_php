@@ -10,6 +10,12 @@
   $tasks = $task->getAllTodoTasks($_SESSION['user_id']);
   $donetasks = $task->getAllDoneTasks($_SESSION['user_id']);
 
+  $filterbyname = (isset($_GET['filterbyName'])) ? $_GET['filterbyName'] : '';
+  $filterbydate = (isset($_GET['filterbyDate'])) ? $_GET['filterbyDate'] : '';
+
+  if ($filterbyname == "true"){
+    $tasks = $task->getAllTodoTasksFilterByName($_SESSION['user_id']);
+  }
 
   $getTask = null;
   if (isset($_GET['opentaskid'])) {
@@ -62,6 +68,17 @@ function deleteTask(task_id) {
   xmlhttp.open("GET", "deleteTask.php?taskid=" + task_id, true);
   xmlhttp.send();
 }
+
+function orderTasksBy(filter) {
+  const baseUrl = window.location.origin + window.location.pathname;
+  if (filter == "namefilter"){
+    window.location.href = baseUrl + "?filterbyName=true" + "&filterbyDate=false";
+  } else {
+    window.location.href = baseUrl + "?filterbyName=false" + "&filterbyDate=true";
+  }
+}
+  
+
 </script>
 <body class="body  . <?php $getTask !== null ? 'background' : '' ?>">
 
@@ -73,12 +90,12 @@ function deleteTask(task_id) {
           <div id="filters">
             <div id="filterTitle"><h2>Filter on</h2></div>
           <div id="filter">
-          <label class="b-contain" for="name">Name
-          <input type="checkbox" id="name" name="name" />
+          <label class="b-contain" for="namefilter">Listname
+          <input type="checkbox" <?php if ($filterbyname == "true") { echo 'checked'; } ?> id="namefilter" name="name" onclick="orderTasksBy('namefilter')">
           <div class="b-input"></div>
           </label>
-          <label class="b-contain" for="date">Date
-          <input type="checkbox" id="date" name="date" />
+          <label class="b-contain" for="datefilter">Date
+          <input type="checkbox" <?php if ($filterbydate == "true") { echo 'checked'; } ?> id="datefilter" name="date" onclick="orderTasksBy('datefilter')">
           <div class="b-input"></div>
           </label>
 
@@ -89,7 +106,7 @@ function deleteTask(task_id) {
       <div class="tasks">
       <?php if (isset($tasks) && count($tasks) > 0): ?>
         <?php foreach ($tasks as $task) { ?>
-          <div onclick="window.location.href='homepage.php?opentaskid=<?php echo $task['task_id']; ?>'">
+          <div onclick="window.location.href='homepage.php?opentaskid=<?php echo $task['task_id']; ?>&filterbyName=<?php echo $filterbyname; ?>&filterbyDate=<?php echo $filterbydate; ?>'">
             <div class="task">
               <div class="taskNameDate">
                 <div class="taskName"><p><?php echo $task['name']; ?></p></div>
@@ -148,12 +165,10 @@ function deleteTask(task_id) {
             <div class="dueTitle"><div class="headerItem"><h1 class="title3"><?php echo $getTask['name']; ?></h1></div></div>
             <div class="due"><h2 class="subtitle2"><?php echo $getTask['duedate']; ?></h2></div>
             </div>
-            <div class="headerItem"><a href="homepage.php"><img class="icon2" src="multiply-line.svg" alt="Close"></a></div>
+            <div class="headerItem"><a href="homepage.php?filterbyName=<?php echo $filterbyname; ?>&filterbyDate=<?php echo $filterbydate; ?>"><img class="icon2" src="multiply-line.svg" alt="Close"></a></div>
             </div>
             <div id="labels">
-              <div id="label">label 1</div>
-              <div id="label">label 2</div>
-              <div id="label">label 3</div>
+              <div id="label"><?php echo $getTask['tasklist_name']; ?></div>
             </div>
             <p class="text"><?php echo $getTask['description']; ?></p>
             <div class="buttons">
