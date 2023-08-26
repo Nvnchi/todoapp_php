@@ -2,8 +2,6 @@
   namespace MyApp;
   use Exception;
   include_once(__DIR__ . "/Db.php");
-  use PDO;
-
 class Task{
         private $task_id;
         private $user_id;
@@ -11,6 +9,7 @@ class Task{
         private $description;
         private $duedate;
         private $isdone;
+        private $tasklist_name;
 
                 /**
          * Get the value of task_id
@@ -147,6 +146,26 @@ class Task{
                 return $this;
         }
 
+                                 /**
+         * Get the value of tasklist_name
+         */ 
+        public function getTaskListName()
+        {
+                return $this->tasklist_name;
+        }
+
+        /**
+         * Set the value of tasklist_name
+         *
+         * @return  self
+         */ 
+        public function setTaskListName($tasklist_name)
+        {
+            $this->tasklist_name = $tasklist_name;
+
+                return $this;
+        }
+
         public function getAllTodoTasks($user_id){
           // create database class and start the connection.
           $db = new Db();
@@ -165,6 +184,26 @@ class Task{
             return null;
           }
         }
+
+        public function getAllTodoTasksFilterByName($user_id){
+          // create database class and start the connection.
+          $db = new Db();
+          $db->__construct();
+
+          // select all from asks, checking on user id and if it's todo. Order by duedate, but when the duedate is empty or null, return 1 otherwise 0, depending on where you want it in *ordered* list.
+          $statement = $db->prepare("SELECT * FROM tasks WHERE user_id = ? and isdone = 0 ORDER BY CASE WHEN duedate = '' or duedate IS NULL THEN 1 ELSE 0 END, tasklist_name ASC");
+          $statement->execute([$user_id]);
+
+          $taskData = $statement->fetchAll();
+
+          $db->close();
+          if ($taskData) {
+            return $taskData;
+          } else {
+            return null;
+          }
+        }
+
 
         public function getAllDoneTasks($user_id){
           // create database class and start the connection.
@@ -203,6 +242,27 @@ class Task{
           }
         }
 
+        public function getTaskByNameCheckifExistsInList($tasklist_name, $name){
+          // create database class and start the connection.
+          $db = new Db();
+          $db->__construct();
+
+          $statement = $db->prepare("SELECT * FROM tasks where tasklist_name = ? and name = ?");
+          $statement->execute([$tasklist_name, $name]);
+
+          $taskData = $statement->fetch();
+
+          $db->close();
+          if ($taskData) {
+            return $taskData;
+          } else {
+            return null;
+          }
+        }
+
+
+
+
         public function deleteTask($task_id){
           // create database class and start the connection.
           $db = new Db();
@@ -210,6 +270,11 @@ class Task{
 
           $statement = $db->prepare("DELETE FROM tasks where task_id = ?");
           $result = $statement->execute([$task_id]);
+
+          if ($result !== null) {
+            $statement = $db->prepare("DELETE FROM taskcomments where task_id = ?");
+            $result = $statement->execute([$task_id]);
+          }
 
           $db->close();
           return $result;
@@ -240,7 +305,7 @@ class Task{
             $db->__construct();
 
             // insert query
-            $statement = $db->prepare("insert into tasks(`task_id`, `user_id`, `name`, `description`, `duedate`, `isdone`) values (:task_id, :user_id, :name, :description, :duedate, :isdone)");
+            $statement = $db->prepare("insert into tasks(`task_id`, `user_id`, `name`, `description`, `duedate`, `isdone`, `tasklist_name`) values (:task_id, :user_id, :name, :description, :duedate, :isdone, :tasklist_name)");
 
             $statement->bindValue(":task_id", $this->task_id);
             $statement->bindValue(":user_id", $this->user_id);
@@ -248,6 +313,7 @@ class Task{
             $statement->bindValue(":description", $this->description);
             $statement->bindValue(":duedate", $this->duedate);
             $statement->bindValue(":isdone", false);
+            $statement->bindValue(":tasklist_name", $this->tasklist_name);
             
 
             $result = $statement->execute();
