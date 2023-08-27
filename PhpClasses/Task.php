@@ -173,11 +173,12 @@ class Task{
           $db = new Db();
           $db->__construct();
 
-          // select all from asks, checking on user id and if it's todo. Order by duedate, but when the duedate is empty or null, return 1 otherwise 0, depending on where you want it in *ordered* list.
-          $statement = $db->prepare("SELECT * FROM tasks WHERE user_id = ? and isdone = 0 ORDER BY CASE WHEN duedate = '' or duedate IS NULL THEN 1 ELSE 0 END, duedate ASC");
-          $statement->execute([$user_id]);
+          // select all from tasks, checking on user id and if it's todo. Order by duedate, but when the duedate is empty or null, return 1 otherwise 0, depending on where you want it in *ordered* list.
+          $statement = $db->prepare("SELECT * FROM tasks WHERE user_id = :user_id and isdone = 0 ORDER BY CASE WHEN duedate = '' or duedate IS NULL THEN 1 ELSE 0 END, duedate ASC");
+          $statement->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+          $statement->execute();
 
-          $taskData = $statement->fetchAll();
+          $taskData = $statement->fetchAll(PDO::FETCH_ASSOC);
 
           $db->close();
           if ($taskData) {
@@ -193,10 +194,11 @@ class Task{
           $db->__construct();
 
           // select all from asks, checking on user id and if it's todo. Order by duedate, but when the duedate is empty or null, return 1 otherwise 0, depending on where you want it in *ordered* list.
-          $statement = $db->prepare("SELECT * FROM tasks WHERE user_id = ? and isdone = 0 ORDER BY CASE WHEN duedate = '' or duedate IS NULL THEN 1 ELSE 0 END, tasklist_name ASC");
-          $statement->execute([$user_id]);
+          $statement = $db->prepare("SELECT * FROM tasks WHERE user_id = :user_id and isdone = 0 ORDER BY CASE WHEN duedate = '' or duedate IS NULL THEN 1 ELSE 0 END, tasklist_name ASC");
+          $statement->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+          $statement->execute();
 
-          $taskData = $statement->fetchAll();
+          $taskData = $statement->fetchAll(PDO::FETCH_ASSOC);
 
           $db->close();
           if ($taskData) {
@@ -212,10 +214,12 @@ class Task{
           $db = new Db();
           $db->__construct();
 
-          $statement = $db->prepare("SELECT * FROM tasks WHERE user_id = ? and isdone = 1");
-          $statement->execute([$user_id]);
+          // select all tasks where isdone is true
+          $statement = $db->prepare("SELECT * FROM tasks WHERE user_id = :user_id and isdone = 1");
+          $statement->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+          $statement->execute();
 
-          $taskData = $statement->fetchAll();
+          $taskData = $statement->fetchAll(PDO::FETCH_ASSOC);
 
           $db->close();
           if ($taskData) {
@@ -231,10 +235,13 @@ class Task{
           $db = new Db();
           $db->__construct();
 
-          $statement = $db->prepare("SELECT * FROM tasks where user_id = ? and task_id = ?");
-          $statement->execute([$user_id, $task_id]);
+          
+          $statement = $db->prepare("SELECT * FROM tasks where user_id = :user_id and task_id = :task_id");
+          $statement->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+          $statement->bindParam(':task_id', $task_id, PDO::PARAM_STR);
+          $statement->execute();
 
-          $taskData = $statement->fetch();
+          $taskData = $statement->fetch(PDO::FETCH_ASSOC);
 
           $db->close();
           if ($taskData) {
@@ -249,8 +256,10 @@ class Task{
           $db = new Db();
           $db->__construct();
 
-          $statement = $db->prepare("SELECT * FROM tasks where tasklist_name = ? and name = ?");
-          $statement->execute([$tasklist_name, $name]);
+          $statement = $db->prepare("SELECT * FROM tasks where tasklist_name = :tasklist_name and name = :name");
+          $statement->bindParam(':tasklist_name', $tasklist_name, PDO::PARAM_STR);
+          $statement->bindParam(':name', $name, PDO::PARAM_STR);
+          $statement->execute();
 
           $taskData = $statement->fetch();
 
@@ -267,13 +276,15 @@ class Task{
           $db = new Db();
           $db->__construct();
 
-          $statement = $db->prepare("DELETE FROM tasks where task_id = ?");
-          $result = $statement->execute([$task_id]);
+          // delete task where task_id = our input
+          $statement = $db->prepare("DELETE FROM tasks where task_id = :task_id");
+          $statement->bindParam(':task_id', $task_id, PDO::PARAM_STR);
+          $result = $statement->execute();
 
-          if ($result !== null) {
-            $statement = $db->prepare("DELETE FROM taskcomments where task_id = ?");
-            $result = $statement->execute([$task_id]);
-          }
+          // delete all taskcomments associated by (having task_id)
+          $statement = $db->prepare("DELETE FROM taskcomments where task_id = :task_id");
+          $statement->bindParam(':task_id', $task_id, PDO::PARAM_STR);
+          $result = $statement->execute();
 
           $db->close();
           return $result;
@@ -284,10 +295,13 @@ class Task{
           $db = new Db();
           $db->__construct();
 
-          $statement = $db->prepare("UPDATE tasks SET isdone = ? where task_id = ?");
-          $statement->execute([$todostate, $task_id]);
+          // update tasks by task_id isdone state
+          $statement = $db->prepare("UPDATE tasks SET isdone = :todostate where task_id = :task_id");
+          $statement->bindParam(':task_id', $task_id, PDO::PARAM_STR);
+          $statement->bindParam(':todostate', $todostate, PDO::PARAM_STR);
+          $statement->execute();
 
-          $taskData = $statement->fetch();
+          $taskData = $statement->fetch(PDO::FETCH_ASSOC);
 
           $db->close();
           if ($taskData) {
@@ -302,18 +316,23 @@ class Task{
           $db = new Db();
           $db->__construct();
 
-          $statement = $db->prepare("SELECT * FROM tasks where  task_id = ?");
-          $statement->execute([$task_id]);
+          $statement = $db->prepare("SELECT * FROM tasks where  task_id = :task_id");
+          $statement->bindParam(':task_id', $task_id, PDO::PARAM_STR);
+          $statement->execute();
 
           $taskData = $statement->fetch();
+          // current task data has uploadedfile and is not empty?
           if (!empty($taskData["uploadedfile"])){
+            // delete file from filesystem
             unlink("./filesystem/" . $taskData["uploadedfile"]);
           }
+          // update current uploadedfile to new filename.
+          $statement = $db->prepare("UPDATE tasks SET uploadedfile = :uploadedfile where task_id = :task_id");
+          $statement->bindParam(':task_id', $task_id, PDO::PARAM_STR);
+          $statement->bindParam(':uploadedfile', $uploadedfile, PDO::PARAM_STR);
+          $statement->execute();
           
-          $statement = $db->prepare("UPDATE tasks SET uploadedfile = ? where task_id = ?");
-          $statement->execute([$uploadedfile, $task_id]);
-          
-          $taskData = $statement->fetch();
+          $taskData = $statement->fetch(PDO::FETCH_ASSOC);
           
           $db->close();
           if ($taskData) {
@@ -329,15 +348,17 @@ class Task{
             $db->__construct();
 
             // insert query
-            $statement = $db->prepare("insert into tasks(`task_id`, `user_id`, `name`, `description`, `duedate`, `isdone`, `tasklist_name`) values (:task_id, :user_id, :name, :description, :duedate, :isdone, :tasklist_name)");
+            $statement = $db->prepare("insert into tasks(`task_id`, `user_id`, `name`, `description`, `duedate`, `isdone`, `tasklist_name`, `uploadedfile`) values (:task_id, :user_id, :name, :description, :duedate, :isdone, :tasklist_name, :uploadedfile)");
 
-            $statement->bindValue(":task_id", $this->task_id);
-            $statement->bindValue(":user_id", $this->user_id);
-            $statement->bindValue(":name", $this->name);
-            $statement->bindValue(":description", $this->description);
-            $statement->bindValue(":duedate", $this->duedate);
-            $statement->bindValue(":isdone", false);
-            $statement->bindValue(":tasklist_name", $this->tasklist_name);
+            $statement->bindValue(":task_id", $this->task_id, PDO::PARAM_STR);
+            $statement->bindValue(":user_id", $this->user_id, PDO::PARAM_STR);
+            $statement->bindValue(":name", $this->name, PDO::PARAM_STR);
+            $statement->bindValue(":description", $this->description, PDO::PARAM_STR);
+            $statement->bindValue(":duedate", $this->duedate, PDO::PARAM_STR);
+            // isdone is default false.
+            $statement->bindValue(":isdone", false, PDO::PARAM_STR);
+            $statement->bindValue(":tasklist_name", $this->tasklist_name, PDO::PARAM_STR);
+            $statement->bindValue(":uploadedfile", "", PDO::PARAM_STR);
             
 
             $result = $statement->execute();

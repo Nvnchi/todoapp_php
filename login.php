@@ -5,8 +5,8 @@
   $error = false;
 
   if (!empty($_POST)){
-    $inputlogin = htmlspecialchars($_POST['inputlogin'],ENT_QUOTES,"UTF-8");
-    $password = htmlspecialchars($_POST['password'],ENT_QUOTES,"UTF-8");
+    $inputlogin = htmlspecialchars(strip_tags($_POST['inputlogin']),ENT_QUOTES,"UTF-8");
+    $password = htmlspecialchars(strip_tags($_POST['password']),ENT_QUOTES,"UTF-8");
     try{
       $user = new User();
 

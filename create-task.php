@@ -14,36 +14,53 @@
   
   // Check if the form is empty
   if(!empty($_POST)){
+
+
+    // do complete check of all post parameters anti xss
+    $labeldropdowncheck = "";
+    if (isset($_POST['labeldropdown'])) {
+      $labeldropdowncheck = htmlspecialchars(strip_tags($_POST['labeldropdown']),ENT_QUOTES,"UTF-8");
+    }
+    $labelcheck = htmlspecialchars(strip_tags($_POST['label']),ENT_QUOTES,"UTF-8");
+    $tasknamecheck = htmlspecialchars(strip_tags($_POST['taskName']),ENT_QUOTES,"UTF-8");
+    $taskdescriptioncheck = htmlspecialchars(strip_tags($_POST['taskDescription']),ENT_QUOTES,"UTF-8");
+    $duecheck = htmlspecialchars(strip_tags($_POST['due']),ENT_QUOTES,"UTF-8");
+
     // try catch block to put up error messages
     try{
       //Create instance of User Class and set values.
       $task = new Task();
       $tasklistname = "";
-      if ($_POST["labeldropdown"] != "none" && empty($_POST["label"])) {
-        $tasklistname = $_POST['labeldropdown'];
+      // if selected from dropdown and nothing in the input use dropdown
+      if ($labeldropdowncheck != "none" && empty($labelcheck)) {
+        $tasklistname = $labeldropdowncheck;
         $task->setTaskListName($tasklistname);
-      } else if (!empty($_POST["label"])) {
-        $tasklistname = $_POST['label'];
+
+      // if (not) selected from dropdown and new input, use input
+      } else if (!empty($labelcheck)) {
+        $tasklistname = $labelcheck;
         $tasklist->setTaskListid(uniqid());
-        $tasklist->setName($_POST['label']);
+        $tasklist->setName($labelcheck);
         $tasklist->setUserid($_SESSION['user_id']);
 
         $tasklist->createTaskList();
         
-        $task->setTaskListName($_POST['label']);
+        $task->setTaskListName($labelcheck);
+      // else, no tasklistname
       } else {
         $task->setTaskListName("");
       }
-      $result = $task->getTaskByNameCheckifExistsInList($tasklistname, $_POST['taskName']);
+      // check if taskname is used.
+      $result = $task->getTaskByNameCheckifExistsInList($tasklistname, $tasknamecheck);
       if (!empty($result)) {
         throw new Exception("⚠️ This task has already been made. Use another name.");
       }
       //Create unique user id, using integrated function uniqid()
       $task->setTaskid(uniqid());
       $task->setUserid($_SESSION['user_id']);
-      $task->setName($_POST['taskName']);
-      $task->setDescription($_POST['taskDescription']);
-      $task->setDuedate($_POST['due']);
+      $task->setName($tasknamecheck);
+      $task->setDescription($taskdescriptioncheck);
+      $task->setDuedate($duecheck);
       
       $task->createTask();
       $succes ="⭐ Task created succesfully!";

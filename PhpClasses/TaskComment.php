@@ -2,6 +2,7 @@
   namespace MyApp;
   use Exception;
   include_once(__DIR__ . "/Db.php");
+  use PDO;
 
 class TaskComment{
         private $task_id;
@@ -82,10 +83,12 @@ class TaskComment{
           $db = new Db();
           $db->__construct();
 
-          $statement = $db->prepare("SELECT * FROM taskcomments where task_id = ?");
-          $statement->execute([$task_id]);
+          // get all taskcomments by task_id
+          $statement = $db->prepare("SELECT * FROM taskcomments where task_id = :task_id");
+          $statement->bindParam(':task_id', $task_id, PDO::PARAM_STR);
+          $statement->execute();
 
-          $taskData = $statement->fetchAll();
+          $taskData = $statement->fetchAll(PDO::FETCH_ASSOC);
 
           $db->close();
           if ($taskData) {
@@ -103,9 +106,9 @@ class TaskComment{
             // insert query
             $statement = $db->prepare("insert into taskcomments(`task_id`, `comment_id`, `comment`) values (:task_id, :comment_id, :comment)");
 
-            $statement->bindValue(":task_id", $this->task_id);
-            $statement->bindValue(":comment_id", $this->comment_id);
-            $statement->bindValue(":comment", $this->comment);
+            $statement->bindValue(":task_id", $this->task_id, PDO::PARAM_STR);
+            $statement->bindValue(":comment_id", $this->comment_id, PDO::PARAM_STR);
+            $statement->bindValue(":comment", $this->comment, PDO::PARAM_STR);
 
             $result = $statement->execute();
 

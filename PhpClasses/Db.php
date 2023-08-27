@@ -3,6 +3,7 @@
   use PDO;
   
   class Db {
+    // protected can only be used in class
     protected $connection;
 
     public function __construct() {
@@ -11,10 +12,12 @@
     }
     
     public function query($query) {
+      // use protected connection to do query.
       return $this->connection->query($query);
     }
 
     public function prepare($query) {
+      // use protected connection prepare query.
       return $this->connection->prepare($query);
     }
     

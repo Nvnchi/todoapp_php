@@ -2,6 +2,7 @@
   namespace MyApp;
   use Exception;
   include_once(__DIR__ . "/Db.php");
+  use PDO;
 
 class User{
         private $user_id;
@@ -146,10 +147,12 @@ class User{
           $db = new Db();
           $db->__construct();
 
-          $statement = $db->prepare("SELECT * FROM users WHERE username = ?");
-          $statement->execute([$username]);
+          // get user by username
+          $statement = $db->prepare("SELECT * FROM users WHERE username = :username");
+          $statement->bindParam(':username', $username, PDO::PARAM_STR);
+          $statement->execute();
 
-          $userData = $statement->fetch();
+          $userData = $statement->fetch(PDO::FETCH_ASSOC);
 
           $db->close();
           if ($userData) {
@@ -164,10 +167,12 @@ class User{
           $db = new Db();
           $db->__construct();
 
-          $statement = $db->prepare("SELECT * FROM users WHERE email = ?");
-          $statement->execute([$email]);
+          // get user by email
+          $statement = $db->prepare("SELECT * FROM users WHERE email = :email");
+          $statement->bindParam(':email', $email, PDO::PARAM_STR);
+          $statement->execute();
 
-          $userData = $statement->fetch();
+          $userData = $statement->fetch(PDO::FETCH_ASSOC);
 
           $db->close();
           if ($userData) {
@@ -182,10 +187,12 @@ class User{
           $db = new Db();
           $db->__construct();
 
-          $statement = $db->prepare("SELECT * FROM users WHERE user_id = ?");
-          $statement->execute([$user_id]);
+          // et user by id
+          $statement = $db->prepare("SELECT * FROM users WHERE user_id = :user_id");
+          $statement->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+          $statement->execute();
 
-          $userData = $statement->fetch();
+          $userData = $statement->fetch(PDO::FETCH_ASSOC);
 
           $db->close();
           if ($userData) {
@@ -203,12 +210,12 @@ class User{
             // insert query
             $statement = $db->prepare("insert into users(`user_id`, `username`, `password`, `firstname`, `lastname`, `email`) values (:user_id, :username, :password, :firstname, :lastname, :email)");
 
-            $statement->bindValue(":user_id", $this->user_id);
-            $statement->bindValue(":username", $this->username);
-            $statement->bindValue(":email", $this->email);
-            $statement->bindValue(":firstname", $this->firstname);
-            $statement->bindValue(":lastname", $this->lastname);
-            $statement->bindValue(":password", $this->password);
+            $statement->bindValue(":user_id", $this->user_id, PDO::PARAM_STR);
+            $statement->bindValue(":username", $this->username, PDO::PARAM_STR);
+            $statement->bindValue(":email", $this->email, PDO::PARAM_STR);
+            $statement->bindValue(":firstname", $this->firstname, PDO::PARAM_STR);
+            $statement->bindValue(":lastname", $this->lastname, PDO::PARAM_STR);
+            $statement->bindValue(":password", $this->password, PDO::PARAM_STR);
             
 
             $result = $statement->execute();

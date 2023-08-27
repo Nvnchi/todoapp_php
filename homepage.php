@@ -10,8 +10,9 @@
   $tasks = $task->getAllTodoTasks($_SESSION['user_id']);
   $donetasks = $task->getAllDoneTasks($_SESSION['user_id']);
 
-  $filterbyname = (isset($_GET['filterbyName'])) ? $_GET['filterbyName'] : '';
-  $filterbydate = (isset($_GET['filterbyDate'])) ? $_GET['filterbyDate'] : '';
+  $filterbyname = (isset($_GET['filterbyName'])) ? htmlspecialchars(strip_tags($_GET['filterbyName']),ENT_QUOTES,"UTF-8") : '';
+  $filterbydate = (isset($_GET['filterbyDate'])) ? htmlspecialchars(strip_tags($_GET['filterbyDate']),ENT_QUOTES,"UTF-8") : '';
+  
 
   if ($filterbyname == "true"){
     $tasks = $task->getAllTodoTasksFilterByName($_SESSION['user_id']);
@@ -19,9 +20,10 @@
 
   $getTask = null;
   if (isset($_GET['opentaskid'])) {
-    $getTask = $task->getTaskByid($_SESSION['user_id'], $_GET['opentaskid']);
+    $opentaskidcheck = htmlspecialchars(strip_tags($_GET['opentaskid']),ENT_QUOTES,"UTF-8");
+    $getTask = $task->getTaskByid($_SESSION['user_id'], $opentaskidcheck);
     $taskcomment = new TaskComment();
-    $taskcomments = $taskcomment->getAllCommentsByTaskid($_GET['opentaskid']);
+    $taskcomments = $taskcomment->getAllCommentsByTaskid($opentaskidcheck);
 
     if(isset($_POST["submit"]) && !empty(basename($_FILES["fileToUpload"]["name"]))) {
       $target = "./filesystem/";
@@ -31,7 +33,10 @@
       move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
       $task->updateTaskFile($uniqid . "-" . basename($_FILES["fileToUpload"]["name"]),$getTask["task_id"]);
 
-      $getTask = $task->getTaskByid($_SESSION['user_id'], $_GET['opentaskid']);
+      $getTask = $task->getTaskByid($_SESSION['user_id'], $opentaskidcheck);
+
+      //reload back to homepage after file upload.
+      header("refresh:1; url=homepage.php?filterbyName=" . $filterbyname . "&filterbyDate=" . $filterbydate);
     }
   }
 ?>
@@ -93,6 +98,8 @@ function deleteFile(filename, task_id) {
   let xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
+      console.log('yes')
+      location.reload();
     }
   };
   xmlhttp.open("GET", "deleteFile.php?filename=" + filename + "&taskid=" + task_id, true);
@@ -201,10 +208,10 @@ function deleteFile(filename, task_id) {
             </form>
             <div class="buttons">
             <div class="buttonAction"><button class="button" onclick="deleteTask('<?php echo $getTask['task_id']; ?>')">Delete task</button></div>           
-            <?php if ($getTask['isdone'] == 0): ?>
-              <div class="buttonAction"><button class="button" onclick="markTaskDoneOrTodo('<?php echo $getTask['task_id']; ?>')">Task done</button></div>
-            <?php else: ?>
+            <?php if ($getTask['isdone'] == 1): ?>
               <div class="buttonAction"><button class="button" onclick="markTaskDoneOrTodo('<?php echo $getTask['task_id']; ?>')">Task todo</button></div>
+            <?php else: ?>
+              <div class="buttonAction"><button class="button" onclick="markTaskDoneOrTodo('<?php echo $getTask['task_id']; ?>')">Task done</button></div>
             <?php endif; ?>
             </div>
             <div id="line"></div>

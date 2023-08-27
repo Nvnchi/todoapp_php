@@ -13,17 +13,17 @@
       //Create unique user id, using integrated function uniqid()
       $user->setUserid(uniqid());
       
-      $user->setUsername(htmlspecialchars($_POST['username'],ENT_QUOTES,"UTF-8"));
-      $user->setEmail(htmlspecialchars($_POST['email'],ENT_QUOTES,"UTF-8"));
-      $user->setLastname(htmlspecialchars($_POST['lastname'],ENT_QUOTES,"UTF-8"));
-      $user->setFirstname(htmlspecialchars($_POST['firstname'],ENT_QUOTES,"UTF-8"));
+      $user->setUsername(htmlspecialchars(strip_tags($_POST['username']),ENT_QUOTES,"UTF-8"));
+      $user->setEmail(htmlspecialchars(strip_tags($_POST['email']),ENT_QUOTES,"UTF-8"));
+      $user->setLastname(htmlspecialchars(strip_tags($_POST['lastname']),ENT_QUOTES,"UTF-8"));
+      $user->setFirstname(htmlspecialchars(strip_tags($_POST['firstname']),ENT_QUOTES,"UTF-8"));
 
       // this cost is the repetition of the algorithm which means the algorithm will run 14 times to make a strong hash
       $options = [
         'cost' => 14,
       ];
       // Using password_hash to create a bcrypt hash of the password
-      $user->setPassword(password_hash($_POST['password'],  PASSWORD_BCRYPT, $options));
+      $user->setPassword(password_hash(htmlspecialchars(strip_tags($_POST['password'])),  PASSWORD_BCRYPT, $options));
 
       $user->createUser();
       $succes ="⭐ User created succesfully!";

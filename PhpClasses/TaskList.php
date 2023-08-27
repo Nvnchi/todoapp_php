@@ -2,6 +2,7 @@
   namespace MyApp;
   use Exception;
   include_once(__DIR__ . "/Db.php");
+  use PDO;
 
 class TaskList{
         private $tasklist_id;
@@ -82,10 +83,11 @@ class TaskList{
           $db = new Db();
           $db->__construct();
 
-          $statement = $db->prepare("SELECT * FROM tasklist WHERE user_id = ?");
-          $statement->execute([$user_id]);
+          $statement = $db->prepare("SELECT * FROM tasklist WHERE user_id = :user_id");
+          $statement->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+          $statement->execute();
 
-          $taskData = $statement->fetchAll();
+          $taskData = $statement->fetchAll(PDO::FETCH_ASSOC);
 
           $db->close();
           if ($taskData) {
@@ -95,6 +97,42 @@ class TaskList{
           }
         }
 
+        public function getTasklistByid($user_id, $tasklist_id){
+          // create database class and start the connection.
+          $db = new Db();
+          $db->__construct();
+
+          // get tasklist where user_id is equal and tasklist_id is equal
+          $statement = $db->prepare("SELECT * FROM tasklist where user_id = :user_id and tasklist_id = :tasklist_id");
+          $statement->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+          $statement->bindParam(':tasklist_id', $tasklist_id, PDO::PARAM_STR);
+          $statement->execute();
+
+          $taskData = $statement->fetch(PDO::FETCH_ASSOC);
+
+          $db->close();
+          if ($taskData) {
+            return $taskData;
+          } else {
+            return null;
+          }
+        }
+
+        public function deleteTasklist($tasklist_id){
+          // create database class and start the connection.
+          $db = new Db();
+          $db->__construct();
+
+          // delete tasklist where tasklist_id
+          $statement = $db->prepare("DELETE FROM tasklist where tasklist_id = :tasklist_id");
+          $statement->bindParam(':tasklist_id', $tasklist_id, PDO::PARAM_STR);
+          $result = $statement->execute();
+
+          $db->close();
+          return $result;
+        }
+
+
         public function createTaskList(){
             // create database class and start the connection.
             $db = new Db();
@@ -103,9 +141,9 @@ class TaskList{
             // insert query
             $statement = $db->prepare("insert into tasklist(`tasklist_id`, `user_id`, `name`) values (:tasklist_id, :user_id, :name)");
 
-            $statement->bindValue(":tasklist_id", $this->tasklist_id);
-            $statement->bindValue(":user_id", $this->user_id);
-            $statement->bindValue(":name", $this->name);
+            $statement->bindValue(":tasklist_id", $this->tasklist_id, PDO::PARAM_STR);
+            $statement->bindValue(":user_id", $this->user_id, PDO::PARAM_STR);
+            $statement->bindValue(":name", $this->name, PDO::PARAM_STR);
             
 
             $result = $statement->execute();
