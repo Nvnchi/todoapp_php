@@ -1,6 +1,7 @@
 <?php
   namespace MyApp;
   include(__DIR__ . "/PhpClasses/User.php");
+  use Exception;
 
   $errormessage = '⚠️ Something went wrong!';
   $haserror = false;
@@ -10,24 +11,32 @@
     try{
       //Create instance of User Class and set values.
       $user = new User();
-      //Create unique user id, using integrated function uniqid()
-      $user->setUserid(uniqid());
-      
-      $user->setUsername(htmlspecialchars(strip_tags($_POST['username']),ENT_QUOTES,"UTF-8"));
-      $user->setEmail(htmlspecialchars(strip_tags($_POST['email']),ENT_QUOTES,"UTF-8"));
-      $user->setLastname(htmlspecialchars(strip_tags($_POST['lastname']),ENT_QUOTES,"UTF-8"));
-      $user->setFirstname(htmlspecialchars(strip_tags($_POST['firstname']),ENT_QUOTES,"UTF-8"));
 
-      // this cost is the repetition of the algorithm which means the algorithm will run 14 times to make a strong hash
-      $options = [
-        'cost' => 14,
-      ];
-      // Using password_hash to create a bcrypt hash of the password
-      $user->setPassword(password_hash(htmlspecialchars(strip_tags($_POST['password'])),  PASSWORD_BCRYPT, $options));
+      $checkmail = $user->getUserByEmail(htmlspecialchars(strip_tags($_POST['email']),ENT_QUOTES,"UTF-8"));
+      $checkusername = $user->getUserByUsername(htmlspecialchars(strip_tags($_POST['email']),ENT_QUOTES,"UTF-8"));
 
-      $user->createUser();
-      $succes ="⭐ User created succesfully!";
-      header("refresh:1; url=login.php");
+      if ($checkmail == null && $checkusername == null){
+        //Create unique user id, using integrated function uniqid()
+        $user->setUserid(uniqid());
+        
+        $user->setUsername(htmlspecialchars(strip_tags($_POST['username']),ENT_QUOTES,"UTF-8"));
+        $user->setEmail(htmlspecialchars(strip_tags($_POST['email']),ENT_QUOTES,"UTF-8"));
+        $user->setLastname(htmlspecialchars(strip_tags($_POST['lastname']),ENT_QUOTES,"UTF-8"));
+        $user->setFirstname(htmlspecialchars(strip_tags($_POST['firstname']),ENT_QUOTES,"UTF-8"));
+
+        // this cost is the repetition of the algorithm which means the algorithm will run 14 times to make a strong hash
+        $options = [
+          'cost' => 14,
+        ];
+        // Using password_hash to create a bcrypt hash of the password
+        $user->setPassword(password_hash(htmlspecialchars(strip_tags($_POST['password'])),  PASSWORD_BCRYPT, $options));
+
+        $user->createUser();
+        $succes ="⭐ User created succesfully!";
+        header("refresh:1; url=login.php");
+      } else {
+        throw new Exception("⚠️ This username/email is already taken!");
+      }
     } catch(\Throwable $th){
         $error = $th->getMessage();
         $errormessage = $error;

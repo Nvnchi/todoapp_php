@@ -25,12 +25,15 @@
     $taskcomment = new TaskComment();
     $taskcomments = $taskcomment->getAllCommentsByTaskid($opentaskidcheck);
 
+    /* if upload file submit & base name (= name of file aka not C:\Users\) of file is not empty */
     if(isset($_POST["submit"]) && !empty(basename($_FILES["fileToUpload"]["name"]))) {
       $target = "./filesystem/";
+      /* files with the same name will be overwritten, so uniqid will fix that */
       $uniqid = uniqid();
       $target_file = $target . $uniqid . "-" . basename($_FILES["fileToUpload"]["name"]);
-      $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+      /* moves file to where you want it */
       move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
+      /* you only save the link/name to the file, not the file itself - this will be saved in the application itself */
       $task->updateTaskFile($uniqid . "-" . basename($_FILES["fileToUpload"]["name"]),$getTask["task_id"]);
 
       $getTask = $task->getTaskByid($_SESSION['user_id'], $opentaskidcheck);
@@ -53,15 +56,18 @@
     <title>Academate</title>
 </head>
 <script>
+
+/* XMLHttpRequest = used to exchange data with a server behind the scenes. possible to update parts of a web page, without reloading whole page. */
 function addComment(task_id) {
   let xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() {
+    /* if the program has heard back from the server */
     if (this.readyState == 4 && this.status == 200) {
-      location.reload();
+      location.reload(); /* page reload */
     }
   };
   xmlhttp.open("GET", "addCommentToTask.php?taskid=" + task_id + "&comment=" + document.getElementById("inputfieldComment").value, true);
-  xmlhttp.send();
+  xmlhttp.send(); /* sends us/AJAX request to addCommentToTask.php */
 }
 function markTaskDoneOrTodo(task_id) {
   let xmlhttp = new XMLHttpRequest();
@@ -202,7 +208,7 @@ function deleteFile(filename, task_id) {
               <p target="_blank" onclick="window.open('filesystem/<?php echo $getTask['uploadedfile']; ?>')" class="text">Uploaded file: <?php echo $getTask['uploadedfile']; ?></p>
               <button class="button" onclick="deleteFile('<?php echo $getTask['uploadedfile']; ?>', '<?php echo $getTask['task_id']; ?>')">Delete file</button>
             <?php endif; ?>
-            <form action="homepage.php?opentaskid=<?php echo $getTask['task_id']; ?>&filterbyName=<?php echo $filterbyname; ?>&filterbyDate=<?php echo $filterbydate; ?>" method="post" enctype="multipart/form-data">
+            <form action="homepage.php?opentaskid=<?php echo $getTask['task_id']; ?>&filterbyName=<?php echo $filterbyname; ?>&filterbyDate=<?php echo $filterbydate; ?>" method="post" enctype="multipart/form-data"> <!-- enctype="multipart/form-data" = used when you want to upload files -->
               <div class="buttonAction"><input type="file" name="fileToUpload" id="fileToUpload" class="button2" onclick="uploadFile()"></input>
               <button class="button" name="submit">Upload file</button></div>
             </form>

@@ -17,7 +17,7 @@
 
 
     // do complete check of all post parameters anti xss
-    $labeldropdowncheck = "";
+    $labeldropdowncheck = ""; // default value
     if (isset($_POST['labeldropdown'])) {
       $labeldropdowncheck = htmlspecialchars(strip_tags($_POST['labeldropdown']),ENT_QUOTES,"UTF-8");
     }
@@ -30,7 +30,7 @@
     try{
       //Create instance of User Class and set values.
       $task = new Task();
-      $tasklistname = "";
+      $tasklistname = ""; // default value
       // if selected from dropdown and nothing in the input use dropdown
       if ($labeldropdowncheck != "none" && empty($labelcheck)) {
         $tasklistname = $labeldropdowncheck;
@@ -55,7 +55,7 @@
       if (!empty($result)) {
         throw new Exception("⚠️ This task has already been made. Use another name.");
       }
-      //Create unique user id, using integrated function uniqid()
+      //Create unique user id, using integrated function uniqid() = make a random id
       $task->setTaskid(uniqid());
       $task->setUserid($_SESSION['user_id']);
       $task->setName($tasknamecheck);

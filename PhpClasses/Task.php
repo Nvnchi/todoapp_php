@@ -216,6 +216,7 @@ class Task{
 
           // select all tasks where isdone is true
           $statement = $db->prepare("SELECT * FROM tasks WHERE user_id = :user_id and isdone = 1");
+          // PDO = PHP Data Objects against SQL injection attacks 
           $statement->bindParam(':user_id', $user_id, PDO::PARAM_STR);
           $statement->execute();
 

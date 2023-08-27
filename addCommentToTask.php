@@ -6,7 +6,7 @@
 
   // get the q parameter from URL
 
-  // anti xss, remove special chars and strig tags from request param
+  // anti xss, remove special chars and strip tags from request param
   $taskid = htmlspecialchars(strip_tags($_REQUEST["taskid"]),ENT_QUOTES,"UTF-8");
   $comment = htmlspecialchars(strip_tags($_REQUEST["comment"]),ENT_QUOTES,"UTF-8");
 
